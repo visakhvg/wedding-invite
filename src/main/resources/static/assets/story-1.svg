@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Placeholder photo">
+  <rect width="800" height="600" fill="#dfe9e4"/>
+  <path d="M0 460l180-140 150 100 200-190 270 230v140H0z" fill="#0e3b35" opacity=".8"/>
+  <circle cx="610" cy="150" r="52" fill="#e8a33d"/>
+  <text x="400" y="560" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#f4f7f2">Replace assets/story-1.svg</text>
+</svg>

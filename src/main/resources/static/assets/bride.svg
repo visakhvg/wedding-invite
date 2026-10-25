@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="Placeholder portrait">
+  <rect width="600" height="800" fill="#f1e4d0"/>
+  <circle cx="300" cy="300" r="105" fill="#b98b3c" opacity=".9"/>
+  <path d="M110 800c0-170 80-260 190-260s190 90 190 260z" fill="#b98b3c" opacity=".9"/>
+  <text x="300" y="720" text-anchor="middle" font-family="sans-serif" font-size="26" fill="#12201e">Replace assets/bride.svg</text>
+</svg>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wedding Invitation</title>
+  <meta name="description" content="You are invited to our wedding.">
+  <meta name="theme-color" content="#0e3b35">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="locked">
+
+  <!-- Opening doors: the one animated moment on the page -->
+  <div id="gate" class="gate" role="dialog" aria-label="Wedding invitation cover">
+    <div class="door door-left"></div>
+    <div class="door door-right"></div>
+    <div class="gate-card">
+      <p id="gate-tagline" class="gate-tagline"></p>
+      <h1 id="gate-names" class="gate-names"></h1>
+      <p id="gate-date" class="gate-date"></p>
+      <button id="open-btn" class="btn btn-gold" type="button">Open invitation</button>
+    </div>
+  </div>
+
+  <main id="invite" aria-hidden="true">
+
+    <section class="hero wrap" id="top">
+      <p id="hero-tagline" class="lead"></p>
+      <h2 id="hero-names" class="hero-names"></h2>
+      <p id="hero-date" class="hero-date"></p>
+      <div id="countdown" class="countdown" aria-live="off"></div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="wrap" id="couple">
+      <h2 class="h2">Two hearts, one family</h2>
+      <div id="couple-grid" class="couple-grid"></div>
+    </section>
+
+    <section class="wrap" id="families">
+      <h2 class="h2">With the blessing of our families</h2>
+      <div id="family-list" class="family-list"></div>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="wrap" id="story">
+      <h2 class="h2">Pages from our story</h2>
+      <ol id="story-list" class="story-list"></ol>
+    </section>
+
+    <section class="dark" id="events-section">
+      <div class="wrap">
+        <h2 class="h2">The celebrations</h2>
+        <ul id="event-list" class="event-list"></ul>
+      </div>
+    </section>
+
+    <section class="wrap" id="venue">
+      <h2 class="h2">Find us on the map</h2>
+      <p id="venue-name" class="venue-name"></p>
+      <p id="venue-address" class="venue-address"></p>
+      <div id="map-box" class="map-box"></div>
+      <a id="map-link" class="btn btn-ghost" target="_blank" rel="noopener">Open in Google Maps</a>
+    </section>
+
+    <div class="band" aria-hidden="true"></div>
+
+    <section class="wrap" id="rsvp" hidden>
+      <h2 id="rsvp-heading" class="h2"></h2>
+      <p id="rsvp-deadline" class="muted"></p>
+      <form id="rsvp-form" class="rsvp-form" novalidate>
+        <label>Your name
+          <input name="name" type="text" maxlength="120" required autocomplete="name">
+        </label>
+        <fieldset>
+          <legend>Can you come?</legend>
+          <label class="choice"><input type="radio" name="attending" value="yes" checked> Yes, I'll be there</label>
+          <label class="choice"><input type="radio" name="attending" value="no"> Sorry, I can't make it</label>
+        </fieldset>
+        <label id="guests-field">Number of guests, including you
+          <select name="guests">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            <option>6</option><option>7</option><option>8</option>
+          </select>
+        </label>
+        <label>A note for the couple (optional)
+          <textarea name="message" rows="3" maxlength="500"></textarea>
+        </label>
+        <button class="btn btn-gold" type="submit">Send reply</button>
+        <p id="rsvp-status" class="rsvp-status" role="status"></p>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p id="quote" class="quote"></p>
+        <p id="closing" class="closing"></p>
+        <p class="credit">Made by <a id="creator-link" target="_blank" rel="noopener"></a></p>
+        <p id="music-credit" class="credit"></p>
+      </div>
+    </footer>
+  </main>
+
+  <button id="music-btn" class="music-btn" type="button" aria-pressed="false" hidden>Sound off</button>
+  <audio id="music" loop preload="none"></audio>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

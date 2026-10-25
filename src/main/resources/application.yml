@@ -1,0 +1,104 @@
+server:
+  port: ${PORT:8080}          # Render sets PORT automatically
+  compression:
+    enabled: true
+
+spring:
+  datasource:
+    # Stores RSVPs in a file. On Render's free plan the disk is wiped on each
+    # deploy, so switch to Postgres (see README) if you need replies to last.
+    url: jdbc:h2:file:./data/invite;AUTO_SERVER=FALSE
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  web:
+    resources:
+      cache:
+        period: 1h
+
+# ---------------------------------------------------------------------------
+# EVERYTHING BELOW IS YOUR CONTENT. Edit the text, restart, done.
+# Photos: put files in src/main/resources/static/assets/ and use "/assets/name.jpg"
+# or set uploads-dir and use "/uploads/name.jpg".
+# ---------------------------------------------------------------------------
+invite:
+  admin-key: ${INVITE_ADMIN_KEY:}                   # empty = admin page disabled; set INVITE_ADMIN_KEY to use it
+  uploads-dir: ${INVITE_UPLOADS_DIR:}               # e.g. ./uploads (optional)
+
+  groom:
+    name: Groom
+    full-name: Groom Firstname Lastname
+    photo: /assets/groom.svg
+    about: Son of Mr. Father Name and Mrs. Mother Name
+  bride:
+    name: Bride
+    full-name: Bride Firstname Lastname
+    photo: /assets/bride.svg
+    about: Daughter of Mr. Father Name and Mrs. Mother Name
+
+  tagline: We are tying the knot
+  intro-line: Brush the strings, listen for the chimes
+  quote: Every love story is a journey. This one begins with you.
+
+  wedding-date-time: "2027-02-14T10:30:00"
+  timezone-offset: "+05:30"
+  wedding-date-label: Sunday, 14th February 2027
+
+  closing-line: With love, Groom & Bride
+
+  families:
+    - title: The Groom's family
+      text: Mr. Father Name & Mrs. Mother Name, together with family and friends, invite you to bless the union.
+    - title: The Bride's family
+      text: Mr. Father Name & Mrs. Mother Name, together with family and friends, invite you to bless the union.
+
+  story:
+    - title: How we met
+      date: June 2021
+      text: Write a few lines about the day you first met. Keep it short and warm.
+      photo: /assets/story-1.svg
+    - title: The first yes
+      date: December 2023
+      text: Write about the moment things became official.
+      photo: /assets/story-2.svg
+    - title: The engagement
+      date: August 2026
+      text: Write about the engagement day and who was there.
+      photo: /assets/story-3.svg
+
+  events:
+    - name: Engagement
+      time: Saturday, 8th August 2026
+      place: Family home
+      note: Celebrated with close family
+    - name: Wedding ceremony
+      time: Sunday, 14th February 2027, 10:30 AM
+      place: Your Church or Temple Name
+      note: Please be seated by 10:00 AM
+    - name: Reception
+      time: Sunday, 14th February 2027, 6:00 PM
+      place: Your Auditorium Name
+      note: Dinner will be served
+
+  venue:
+    name: Your Venue Name
+    address: Street, Town, Kerala 695000
+    # Google Maps > Share > Embed a map > copy the src="..." URL
+    map-embed-url: https://www.google.com/maps?q=Thiruvananthapuram&output=embed
+    map-link: https://www.google.com/maps/search/?api=1&query=Thiruvananthapuram
+
+  music:
+    file: /assets/music.mp3        # add your own licensed mp3; leave empty to hide the button
+    credit: Add a song credit here
+
+  creator:
+    name: Your Name
+    link: https://www.instagram.com/
+
+  rsvp:
+    enabled: true
+    heading: Will you be joining us?
+    deadline: Please reply by 31st January 2027
