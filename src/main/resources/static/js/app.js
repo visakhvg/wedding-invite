@@ -37,12 +37,19 @@
     document.title = `${names} · Wedding Invitation`;
 
     setText("gate-tagline", d.tagline);
+    setText("gate-quote", d.quote);
     setText("gate-names", names);
     setText("gate-date", d.weddingDateLabel);
 
     setText("hero-tagline", d.tagline);
     setText("hero-names", names);
     setText("hero-date", d.weddingDateLabel);
+
+    // Top bar, envelope seal (initials) and RSVP link
+    setText("brand", names);
+    const initials = (d.groom.name || "").charAt(0) + (d.bride.name || "").charAt(0);
+    setText("seal-text", initials.trim() || "♥");
+    $("nav-rsvp").hidden = !(d.rsvp && d.rsvp.enabled);
 
     // Couple
     const grid = $("couple-grid");
@@ -61,14 +68,189 @@
     }
 
     // Story
+   
+    // Story — supports one or multiple photos per story
     const story = $("story-list");
+
+    // Add carousel styling without changing css/style.css
+    if (!$("story-carousel-styles")) {
+      const style = el("style", { id: "story-carousel-styles" });
+      style.textContent = `
+        .story-carousel {
+          position: relative;
+          width: 100%;
+          max-width: 330px;
+          margin: 0 auto;
+          padding: 7px;
+          background: #fffaf2;
+          box-shadow: 0 8px 22px rgba(70, 45, 25, .14);
+          box-sizing: border-box;
+          touch-action: pan-y;
+        }
+        .story-carousel .carousel-image {
+          display: block;
+          width: 100%;
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
+          transition: opacity .2s ease;
+        }
+        .story-carousel .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 36px;
+          height: 36px;
+          border: 0;
+          border-radius: 50%;
+          background: rgba(255, 250, 242, .92);
+          color: #8f382f;
+          font-size: 24px;
+          line-height: 1;
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(0,0,0,.12);
+        }
+        .story-carousel .carousel-prev { left: 12px; }
+        .story-carousel .carousel-next { right: 12px; }
+        .story-carousel .carousel-dots {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 4px 5px;
+        }
+        .story-carousel .carousel-dot {
+          width: 7px;
+          height: 7px;
+          padding: 0;
+          border: 0;
+          border-radius: 50%;
+          background: #d8c9b5;
+          cursor: pointer;
+        }
+        .story-carousel .carousel-dot.active {
+          background: #a9473d;
+          transform: scale(1.3);
+        }
+        .story-carousel .carousel-count {
+          text-align: center;
+          font-size: 12px;
+          color: #806b58;
+          margin: 0 0 5px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .story-carousel .carousel-image { transition: none; }
+        }
+      `;
+      document.head.append(style);
+    }
+
     for (const c of d.story || []) {
       const text = el("div", { class: "chapter-text" },
         el("p", { class: "chapter-date" }, c.date),
         el("h3", {}, c.title),
         el("p", {}, c.text));
+
       const li = el("li", { class: "chapter" }, text);
-      if (safeUrl(c.photo)) li.append(el("img", { src: safeUrl(c.photo), alt: c.title, loading: "lazy" }));
+
+      // Comma-separated photo paths are supported by the existing YAML field.
+      const photos = (c.photo || "")
+        .split(",")
+        .map(path => safeUrl(path.trim()))
+        .filter(Boolean);
+
+      if (photos.length === 1) {
+        li.append(el("img", {
+          src: photos[0],
+          alt: c.title,
+          loading: "lazy"
+        }));
+      } else if (photos.length > 1) {
+        const carousel = el("div", {
+          class: "story-carousel",
+          role: "region",
+          "aria-label": c.title + " photo gallery"
+        });
+
+        const img = el("img", {
+          class: "carousel-image",
+          src: photos[0],
+          alt: c.title + " photo 1",
+          loading: "lazy"
+        });
+
+        const count = el("p", {
+          class: "carousel-count",
+          "aria-live": "polite"
+        }, `1 / ${photos.length}`);
+
+        const dots = el("div", {
+          class: "carousel-dots",
+          "aria-label": "Choose a photo"
+        });
+
+        let current = 0;
+
+        function showPhoto(index) {
+          current = (index + photos.length) % photos.length;
+          img.src = photos[current];
+          img.alt = `${c.title} photo ${current + 1}`;
+          count.textContent = `${current + 1} / ${photos.length}`;
+
+          [...dots.children].forEach((dot, i) => {
+            dot.classList.toggle("active", i === current);
+            dot.setAttribute("aria-current",
+              i === current ? "true" : "false");
+          });
+        }
+
+        const prev = el("button", {
+          type: "button",
+          class: "carousel-arrow carousel-prev",
+          "aria-label": "Previous photo"
+        }, "‹");
+
+        const next = el("button", {
+          type: "button",
+          class: "carousel-arrow carousel-next",
+          "aria-label": "Next photo"
+        }, "›");
+
+        prev.addEventListener("click", () => showPhoto(current - 1));
+        next.addEventListener("click", () => showPhoto(current + 1));
+
+        photos.forEach((_, i) => {
+          const dot = el("button", {
+            type: "button",
+            class: "carousel-dot",
+            "aria-label": `Show photo ${i + 1}`
+          });
+          dot.addEventListener("click", () => showPhoto(i));
+          dots.append(dot);
+        });
+
+        // Touch gestures for mobile phones
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        carousel.addEventListener("touchstart", e => {
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        }, { passive: true });
+
+        carousel.addEventListener("touchend", e => {
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+            showPhoto(current + (dx < 0 ? 1 : -1));
+          }
+        }, { passive: true });
+
+        carousel.append(img, prev, next, dots, count);
+        li.append(carousel);
+        showPhoto(0);
+      }
+
       story.append(li);
     }
 
@@ -179,11 +361,14 @@
   function setupGate() {
     const gate = $("gate");
     $("open-btn").addEventListener("click", () => {
-      gate.classList.add("open");
-      document.body.classList.remove("locked");
-      $("invite").removeAttribute("aria-hidden");
+      gate.classList.add("opening");          // flap lifts, card slides out
       if (audio) playMusic();
-      setTimeout(() => gate.remove(), 1700);
+      setTimeout(() => {
+        gate.classList.add("open");           // envelope screen fades away
+        document.body.classList.remove("locked");
+        $("invite").removeAttribute("aria-hidden");
+      }, 2300);
+      setTimeout(() => gate.remove(), 3400);
     }, { once: true });
   }
 

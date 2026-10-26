@@ -31,23 +31,23 @@ invite:
   uploads-dir: ${INVITE_UPLOADS_DIR:}               # e.g. ./uploads (optional)
 
   groom:
-    name: Groom
-    full-name: Groom Firstname Lastname
+    name: Visakh
+    full-name: Visakh Venugopal
     photo: /assets/groom.svg
-    about: Son of Mr. Father Name and Mrs. Mother Name
+    about: Son of Shri. G Venugopalan Nair and Smt. S S Devi Priya
   bride:
-    name: Bride
-    full-name: Bride Firstname Lastname
+    name: Aiswarya
+    full-name: Aiswarya P Anil
     photo: /assets/bride.svg
-    about: Daughter of Mr. Father Name and Mrs. Mother Name
+    about: Daughter of Shri. Anil Shankar R.S  and Smt. Preetha Kumari C.P
 
   tagline: We are tying the knot
   intro-line: Brush the strings, listen for the chimes
-  quote: Every love story is a journey. This one begins with you.
+  quote: And so, beneath the same sky that watched our story unfold, we gather the people we love to witness the day our two tomorrows become one.
 
-  wedding-date-time: "2027-02-14T10:30:00"
+  wedding-date-time: "2026-12-31T10:30:00"
   timezone-offset: "+05:30"
-  wedding-date-label: Sunday, 14th February 2027
+  wedding-date-label: Thursday, 31st December 2026
 
   closing-line: With love, Groom & Bride
 
@@ -67,9 +67,9 @@ invite:
       text: Write about the moment things became official.
       photo: /assets/story-2.svg
     - title: The engagement
-      date: August 2026
+      date: 10th May 2026
       text: Write about the engagement day and who was there.
-      photo: /assets/story-3.svg
+      photo: /assets/eng1.JPG, /assets/eng2.JPG, /assets/eng3.JPG, /assets/eng4.JPG, /assets/eng5.JPG, /assets/eng6.JPG, /assets/eng7.JPG, /assets/eng8.JPG, /assets/eng9.JPG
 
   events:
     - name: Engagement
@@ -93,14 +93,14 @@ invite:
     map-link: https://www.google.com/maps/search/?api=1&query=Thiruvananthapuram
 
   music:
-    file: /assets/music.mp3        # add your own licensed mp3; leave empty to hide the button
+    file: /assets/SaptaSagaradaachEllo.mp3        # add your own licensed mp3; leave empty to hide the button
     credit: Add a song credit here
 
   creator:
-    name: Your Name
+    name: Visakh & Aiswarya
     link: https://www.instagram.com/
 
   rsvp:
-    enabled: true
+    enabled: false
     heading: Will you be joining us?
     deadline: Please reply by 31st January 2027
