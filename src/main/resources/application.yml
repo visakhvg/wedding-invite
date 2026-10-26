@@ -19,6 +19,8 @@ spring:
       cache:
         period: 1h
 
+  main:
+    lazy-initialization: true
 # ---------------------------------------------------------------------------
 # EVERYTHING BELOW IS YOUR CONTENT. Edit the text, restart, done.
 # Photos: put files in src/main/resources/static/assets/ and use "/assets/name.jpg"
